@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/api/search";
+const API_URL = "https://onrender.com";
 
 const form = document.getElementById("search-form");
 const industryInput = document.getElementById("industry");
