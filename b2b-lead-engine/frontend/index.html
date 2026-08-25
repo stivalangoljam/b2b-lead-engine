@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>B2B Lead Engine Dashboard</title>
+    <style>
+      :root {
+        --bg: #0b0f14;
+        --bg-elevated: #121821;
+        --bg-input: #0e141c;
+        --border: rgba(148, 163, 184, 0.16);
+        --text: #e8eef6;
+        --muted: #93a4b8;
+        --accent: #5eead4;
+        --accent-strong: #2dd4bf;
+        --danger: #fb7185;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        --radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(1200px 500px at 10% -10%, rgba(45, 212, 191, 0.12), transparent 55%),
+          radial-gradient(900px 420px at 100% 0%, rgba(56, 189, 248, 0.08), transparent 50%),
+          var(--bg);
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 64px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+        letter-spacing: -0.03em;
+        font-weight: 650;
+      }
+
+      .subtitle {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .badge {
+        color: var(--accent);
+        background: rgba(45, 212, 191, 0.1);
+        border: 1px solid rgba(45, 212, 191, 0.25);
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .panel {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 40%), var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 16px;
+        align-items: end;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      input {
+        width: 100%;
+        height: 46px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg-input);
+        color: var(--text);
+        padding: 0 14px;
+        font: inherit;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: rgba(45, 212, 191, 0.7);
+        box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+      }
+
+      button {
+        height: 46px;
+        padding: 0 22px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #5eead4, var(--accent-strong));
+        color: #042f2e;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      button:disabled {
+        opacity: 0.65;
+        cursor: wait;
+      }
+
+      .status {
+        min-height: 1.3rem;
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .status.error {
+        color: var(--danger);
+      }
+
+      .table-wrap {
+        margin-top: 22px;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+      }
+
+      th,
+      td {
+        padding: 14px 16px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+
+      th {
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: rgba(15, 23, 32, 0.9);
+        position: sticky;
+        top: 0;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      tbody tr:hover td {
+        background: rgba(94, 234, 212, 0.04);
+      }
+
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        padding: 36px 16px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .script {
+        color: #c9d6e5;
+        line-height: 1.5;
+        max-width: 420px;
+      }
+
+      @media (max-width: 800px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        form {
+          grid-template-columns: 1fr;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div>
+          <h1>B2B Lead Engine Dashboard</h1>
+          <p class="subtitle">Search an industry and city, then pull mock customer profiles with outreach copy.</p>
+        </div>
+        <span class="badge">Dark mode</span>
+      </header>
+
+      <section class="panel">
+        <form id="search-form">
+          <div>
+            <label for="industry">Industry</label>
+            <input id="industry" name="industry" type="text" placeholder="HVAC" required />
+          </div>
+          <div>
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" placeholder="Austin, TX" required />
+          </div>
+          <button id="search-button" type="submit">Find Customers</button>
+        </form>
+        <p id="status" class="status" role="status">Enter an industry and location to load leads.</p>
+      </section>
+
+      <section class="panel" style="margin-top: 18px; padding: 0">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Business</th>
+                <th>Website</th>
+                <th>Phone</th>
+                <th>Outreach script</th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <tr>
+                <td class="empty" colspan="4">No customers yet. Run a search to fill this grid.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
